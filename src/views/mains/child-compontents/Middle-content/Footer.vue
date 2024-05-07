@@ -100,7 +100,7 @@ import * as rec from '../../../../utils/rec.js'
 
 //f_定义一个消息回调函数
 const showAudioText = (data: string) => {
-  // console.log('text', data)
+  console.log('text', data)
   voceValue.value = data
 }
 //f_预初始化,如果返回非0说明失败
@@ -145,8 +145,8 @@ const showModal = () => {
   open.value = true
 }
 const handleOk = (e: MouseEvent) => {
-  // console.log(e)
-  // console.log(voceValue.value)
+  console.log(e)
+  console.log(voceValue.value)
   onSendvoice()
   open.value = false
 }

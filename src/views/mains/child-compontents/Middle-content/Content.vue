@@ -8,7 +8,6 @@
           :aiMessage="dialog.type === 'ai' && dialog.content"
           :is-latest="dialog.isLatestInType"
           :show-intention-buttons="dialog.showIntentionButtons"
-          @askFatheQuestion="askquestion"
         ></component>
       </div>
     </div>
@@ -48,24 +47,11 @@ import {
   JWHsummarizeai
 } from '@/service/pages/mains/child-components/Middle-content/Content'
 import { aihint, aidefine } from '@/stores/index'
-//提示
 const visible = ref<boolean>(true)
 const messages = ref<string[]>([])
 const handleClose = (index: number) => {
   messages.value.splice(index, 1)
 }
-//从存储中获取issueId
-const issue_id = '2'
-// const issue_id = ref(String(localStorage.getItem('issueId')) || '')
-//监听issue_id的变化
-// watch(
-//   () => issue_id,
-//   (newvalue, oldvalue) => {
-//     if (newvalue !== oldvalue && newvalue) {
-//       hint()
-//     }
-//   }
-// )
 const containerRef = ref()
 const scrollBottom = () => {
   const container = containerRef.value
@@ -75,26 +61,52 @@ const scrollBottom = () => {
     // console.log(container.scrollHeight)
   }
 }
-onUpdated(() => {
-  scrollBottom()
-})
-const hint = () => {
+// 监听 aihint 的变化，并根据新的 welcomContent获取不同人物的首个提示
+const welcomeStore = aihint() // 使用 useStore 获取 aihint 存储模块
+const welcomContent = ref('') // 声明一个响应式引用用于存储欢迎内容
+watch(
+  () => welcomeStore.$state.welcom,
+  async (newVal) => {
+    await welcomeStore.getWelcomeMessage(newVal) // 调用存储模块中的获取欢迎信息的方法
+    welcomContent.value = welcomeStore.welcom // 更新当前组件中的欢迎内容
+    synthesizeAndPlay(welcomContent.value)
+    // console.log('成功' + welcomContent.value)
+  }
+)
+//监听问题id变化,并根据新的
+//提示
+const aidef = aidefine()
+const aidefContent = ref('')
+const aidefid = ref('')
+const aidefstate = ref('')
+watch(
+  () => aidef.$state.aianswer,
+  async (newVal) => {
+    await aidef.askquestion(newVal)
+    aidefContent.value = aidef.aianswer
+    addDialog(Ai, 'ai', aidefContent.value)
+    aidefid.value = aidef.answerid
+    aidefstate.value = aidef.answerstate
+    if (aidefstate.value == '0') {
+      summarizeai(aidefid.value)
+    }
+    //console.log('成功' + aidefContent.value)
+  }
+)
+/* const hint = () => {
   // 获取 aiquestion store 的实例
   const welcomeStore = aihint()
   // 然后你可以调用其中的函数和访问数据
   //因为获取welcomeMessage是异步的,所以需要用then
   welcomeStore.getWelcomeMessage(issue_id).then(() => {
     const welcomeMessage = welcomeStore.welcom
-    // console.log(welcomeMessage)
     messages.value.push(welcomeMessage)
     synthesizeAndPlay(welcomeMessage)
-    /* setTimeout(() => {
-      // 移除最后一个消息
-      messages.value.pop()
-      addDialog(Ai, 'ai', welcomeMessage)
-    }, 30000) // 30秒后移除消息 */
   })
-}
+} */
+onUpdated(() => {
+  scrollBottom()
+})
 let id = '2'
 //调用询问问题接口
 async function askquestion() {
@@ -203,8 +215,8 @@ watch(
   }
 )
 //调用存储用户回答接口
-async function storage(id: string, newvalue: string) {
-  const userResult = await JWHstorage(id, newvalue)
+async function storage(aidefid: string, newvalue: string) {
+  const userResult = await JWHstorage(aidefid, newvalue)
   if (userResult.code == 200) {
     // console.log(userResult.msg)
   } else {
@@ -224,9 +236,7 @@ async function welcome() {
     welcom.value = welcomResult.data
     addAiDialog()
     //console.log(welcomResult.data)
-    setTimeout(() => {
-      hint()
-    }, 1000)
+    setTimeout(() => {}, 1000)
   } else {
     /* empty */
   }
@@ -276,24 +286,18 @@ async function Intelligent(newvalue: string) {
 }
 //存进大模型
 async function storageai(storage: string) {
-  // console.log(useraccount.value)id
-  // console.log(password.value)
   const storageResult = await JWHstorageai(id, storage)
-  //console.log(welcomResult)
+  console.log(storageResult)
   if (storageResult.code == 200) {
-    // console.log(storageResult.msg)
+    console.log(storageResult.msg)
   } else {
     /* empty */
   }
 }
 //整合文章
-async function summarizeai() {
-  // console.log(useraccount.value)id
-  // console.log(password.value)
+async function summarizeai(id: string) {
   const storageResult = await JWHsummarizeai(id)
-  //console.log(welcomResult)
   if (storageResult.code == 200) {
-    // console.log(storageResult.data)
     addDialog(Ai, 'ai', storageResult.data)
   } else {
     /* empty */
