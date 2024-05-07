@@ -17,7 +17,10 @@ export const useOpenStore = defineStore('isOpen', () => {
   }
   return { isOpen, controlOpen }
 })
-
+export const AiIssue = defineStore('issue', () => {
+  const issue = ref('')
+  return { issue }
+})
 //调用欢迎词和问题接口
 export const aihint = defineStore('welcome_id', () => {
   const welcom = ref('')

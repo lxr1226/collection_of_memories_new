@@ -6,24 +6,18 @@
     :style="`background-color:${backgroundColor} ;margin-right: 30px ; width: 390px ; height:362px ; margin-bottom: 30px;border: 2px solid black;`"
   >
     <div class="card-content">
-      <a-avatar :size="64" style="margin-bottom: 10px" :src="avatar" />
-      <a-tooltip>
-        <template #title>请点击</template>
-        <a-button
-          @click="onClose"
-          type="link"
-          block
-          style="color: rgb(232 154 63)"
-        >
+      <div class="content" @click="onClose">
+        <a-avatar :size="64" style="margin-bottom: 10px" :src="avatar" />
+        <a-button type="link" block style="color: rgb(232 154 63)">
           <slot></slot>
         </a-button>
-      </a-tooltip>
-      <span style="margin-bottom: 10px">字数：{{ count }} /字</span>
-      <a-typography-paragraph
-        style="font-size: 20px"
-        :ellipsis="{ rows: 2, expandable: false, symbol: 'more' }"
-        :content="essay"
-      />
+        <span style="margin-bottom: 10px">字数：{{ count }} /字</span>
+        <a-typography-paragraph
+          style="font-size: 20px"
+          :ellipsis="{ rows: 2, expandable: false, symbol: 'more' }"
+          :content="essay"
+        />
+      </div>
       <div class="btn">
         <a-button
           type="primary"
@@ -55,31 +49,6 @@
         >
       </div>
     </div>
-
-    <!-- <template #actions>
-      <a-button
-        type="primary"
-        @click="showEditModal"
-        style="border-radius: 58px; font-size: 26px; width: 129px; height: 58px"
-        >编辑</a-button
-      >
-
-      <a-button
-        type="primary"
-        style="
-          border-radius: 58px;
-          background-color: rgba(255, 255, 255, 1);
-          color: rgba(69, 153, 122, 1);
-          opacity: 1;
-          border: 1px solid rgba(180, 219, 205, 1);
-          font-size: 26px;
-          width: 129px;
-          height: 58px;
-        "
-        @click="showModal"
-        >预览</a-button
-      >
-    </template> -->
   </a-card>
   <a-modal
     v-model:open="openEdit"
@@ -121,7 +90,7 @@ import {
   LXRupdateessay,
   LXRessay
 } from '@/service/pages/mains/child-components/Right-drawer/DrawerPage'
-
+import { AiIssue } from '@/stores/index'
 const props = defineProps({
   backgroundColor: {
     type: String,
@@ -193,7 +162,9 @@ async function onClose() {
     const formdata2 = new FormData()
     formdata2.append('welcome_id', qaId.value)
     const welcomeRes = await LXRselectwelcome(formdata2)
-    // console.log(welcomeRes.data)
+    console.log('问题是：' + welcomeRes.data)
+    const aiAnswer = AiIssue()
+    aiAnswer.issue = welcomeRes.data
   } else {
     console.error('props.issueId为空')
   }
@@ -238,7 +209,7 @@ onMounted(async () => {
 .card {
   width: 300px;
 }
-.card-content {
+.card-content .content {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -251,6 +222,7 @@ onMounted(async () => {
   flex-direction: row;
   justify-content: space-around;
   bottom: 20px;
+  left: 2px;
 }
 .full-modal {
   .ant-modal {
