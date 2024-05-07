@@ -6,11 +6,7 @@
     :style="`background-color:${backgroundColor} ;margin-right: 30px ; width: 390px ; height:362px ; margin-bottom: 30px;border: 2px solid black;`"
   >
     <div class="card-content">
-      <a-avatar
-        :size="64"
-        style="margin-bottom: 10px"
-        src="src/assets/image/avatar.png"
-      />
+      <a-avatar :size="64" style="margin-bottom: 10px" :src="avatar" />
       <h1 @click="onClose" style="font-size: 30px; margin-bottom: 10px">
         <slot></slot>
       </h1>
@@ -109,6 +105,7 @@
 </template>
 <script setup lang="ts">
 import { ref, defineEmits, onMounted } from 'vue'
+import avatar from '../../../../assets/image/avatar.png'
 import {
   LXRselectissue,
   LXRselectwelcome,
@@ -116,6 +113,7 @@ import {
   LXRupdateessay,
   LXRessay
 } from '@/service/pages/mains/child-components/Right-drawer/DrawerPage'
+
 const props = defineProps({
   backgroundColor: {
     type: String,
