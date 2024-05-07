@@ -85,8 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import { Button, Modal } from 'ant-design-vue'
-import { h } from 'vue'
 import { AudioOutlined, InsertRowBelowOutlined } from '@ant-design/icons-vue'
 import { ref } from 'vue'
 import SoundWave from '../../child-compontents/Middle-content/Content-page/SoundWave.vue'
