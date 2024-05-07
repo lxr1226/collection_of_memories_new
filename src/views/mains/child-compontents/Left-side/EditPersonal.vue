@@ -2,14 +2,6 @@
   <a-button type="primary" class="Editbtn" @click="showDrawer"
     >修改个人信息</a-button
   >
-  <!--  <a-config-provider-->
-  <!--    :theme="{-->
-  <!--      token: {-->
-  <!--        fontSize: '30px',-->
-  <!--      },-->
-  <!--    }"-->
-  <!--  >-->
-  <!--  <a-style-provider hash-priority="high">-->
   <a-drawer
     title="修改个人信息"
     :width="720"
@@ -18,6 +10,7 @@
     :header-style="{ textAlign: 'center' }"
     :footer-style="{ textAlign: 'right' }"
     @close="onClose"
+    :closeIcon="null"
   >
     <a-form
       ref="formRef"
@@ -30,14 +23,22 @@
       <a-row :gutter="16">
         <a-col :span="18">
           <a-form-item label="姓名" name="name">
-            <a-input v-model:value="form.name" placeholder="请输入名字" />
+            <a-input
+              size="large"
+              v-model:value="form.name"
+              placeholder="请输入名字"
+            />
           </a-form-item>
         </a-col>
       </a-row>
       <a-row :gutter="16">
         <a-col :span="18">
           <a-form-item label="年龄" name="age">
-            <a-input v-model:value="form.age" placeholder="请输入年龄" />
+            <a-input
+              size="large"
+              v-model:value="form.age"
+              placeholder="请输入年龄"
+            />
           </a-form-item>
         </a-col>
       </a-row>
@@ -46,6 +47,7 @@
           <a-form-item label="性别" name="sex">
             <a-select
               v-model:value="form.sex"
+              size="large"
               :options="options"
               placeholder="请选择性别"
             >
@@ -57,6 +59,7 @@
         <a-col :span="18">
           <a-form-item label="地址" name="address">
             <a-input
+              size="large"
               v-model:value="form.address"
               placeholder="请输入地址例如：四川.成都"
             />
@@ -184,7 +187,64 @@ const sendDataToBackend = async () => {
 }
 </script>
 <style scoped>
-@import url('@/assets/css/mains/child-components/Left-side/personallnfor.css');
+.form {
+  font-size: 50px;
+  width: 100%;
+}
+.Editbtn {
+  color: rgb(232 154 63);
+  background-color: white;
+  width: 150px;
+  height: 58px;
+  font-size: 20px;
+  margin-top: 40px;
+}
+.Editbtn:hover {
+  color: white;
+  background-color: orange;
+}
+.drawer-footer {
+  text-align: center;
+  padding: 16px 24px;
+  border-top: 1px solid #e8e8e8;
+}
+.btn-box {
+  display: flex;
+  justify-content: space-between;
+}
+:global(.ant-form-item .ant-form-item-label > label) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  height: 58px;
+  color: rgba(176, 176, 176, 1);
+  font-size: 30px;
+}
+:global(.ant-input-lg) {
+  padding: 7px 11px;
+  font-size: 30px;
+  line-height: 0.1;
+  border-radius: 8px;
+}
+:global(
+    .ant-select-single.ant-select-lg:not(.ant-select-customize-input)
+      .ant-select-selector
+  ) {
+  width: 100%;
+  height: 60px;
+  padding: 7px 11px;
+  font-size: 30px;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+:global(.ant-row) {
+  display: flex;
+  flex-flow: row wrap;
+  min-width: 0;
+  justify-content: center;
+}
+
 :global(.ant-drawer .ant-drawer-title) {
   font-size: 30px;
 }

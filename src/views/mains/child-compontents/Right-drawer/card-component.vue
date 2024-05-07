@@ -8,16 +8,12 @@
     <div class="card-content">
       <a-avatar :size="64" style="margin-bottom: 10px" :src="avatar" />
       <a-tooltip>
-        <template #title>点击可进行AI对话</template>
+        <template #title>请点击</template>
         <a-button
+          @click="onClose"
           type="link"
           block
-          @click="onClose"
-          style="
-            font-size: 30px;
-            margin-bottom: 10px;
-            color: rgba(255, 195, 100, 1);
-          "
+          style="color: rgb(232 154 63)"
         >
           <slot></slot>
         </a-button>
@@ -125,7 +121,7 @@ import {
   LXRupdateessay,
   LXRessay
 } from '@/service/pages/mains/child-components/Right-drawer/DrawerPage'
-import { aihint } from '@/stores/index'
+
 const props = defineProps({
   backgroundColor: {
     type: String,
@@ -184,13 +180,6 @@ const handleOk = (e: MouseEvent) => {
 }
 const emit = defineEmits(['closeDrawer'])
 async function onClose() {
-  const welcomeStore = aihint()
-  // 然后你可以调用其中的函数和访问数据
-  //因为获取welcomeMessage是异步的,所以需要用then
-  welcomeStore.getWelcomeMessage(props.issueId).then(() => {
-    const welcomeMessage = welcomeStore.welcom
-    console.log(welcomeMessage)
-  })
   open.value = false
   emit('closeDrawer', open.value) // 发射一个自定义事件，告知父组件关闭抽屉
   if (props.issueId) {

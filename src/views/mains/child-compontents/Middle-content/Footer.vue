@@ -8,10 +8,15 @@
             shape="circle"
             size="large"
             @click="toggleBox"
+            style="
+              width: 50px;
+              height: 50px;
+              border: 3px solid rgba(54, 136, 255, 1);
+            "
             ghost
           >
             <template #icon>
-              <AudioOutlined />
+              <AudioOutlined style="font-size: 30px" />
             </template> </a-button
         ></a-col>
         <a-col :span="16">
@@ -25,7 +30,7 @@
             type="primary"
             size="large"
             @click="onSendClick"
-            style="background-color: rgba(255, 195, 100, 1)"
+            style="background-color: rgba(255, 195, 100, 1); height: 50px"
             >发送</a-button
           >
         </a-col>
@@ -35,13 +40,13 @@
       <a-row>
         <a-col :span="3">
           <a-button
-            type="primary"
             shape="circle"
             size="large"
+            style="width: 50px; height: 50px"
             @click="toggleBox"
           >
             <template #icon>
-              <InsertRowBelowOutlined />
+              <InsertRowBelowOutlined style="font-size: 30px" />
             </template>
           </a-button>
         </a-col>
@@ -66,20 +71,28 @@
         </a-col>
       </a-row>
 
-      <Modal v-model:open="open" width="1000px" centered :closable="false">
+      <a-modal v-model:open="open" width="1000px" centered :closable="false">
         <template #footer>
-          <Button key="back" @click="handleCancel" class="cansle" size="large"
-            >取消</Button
+          <a-button
+            key="back"
+            @click="handleCancel"
+            size="large"
+            style="background-color: rgba(255, 195, 100, 0.8)"
+            >取消</a-button
           >
-          <Button key="submit" @click="handleOk" class="send" size="large"
-            >发送</Button
+          <a-button
+            key="submit"
+            @click="handleOk"
+            size="large"
+            style="background-color: rgba(54, 136, 255, 0.6)"
+            >发送</a-button
           >
         </template>
         <a-textarea
           style="font-size: 30px"
           v-model:value="voceValue"
         ></a-textarea>
-      </Modal>
+      </a-modal>
     </div>
   </div>
 </template>
@@ -98,7 +111,7 @@ import * as rec from '../../../../utils/rec.js'
 
 //f_定义一个消息回调函数
 const showAudioText = (data: string) => {
-  console.log('text', data)
+  // console.log('text', data)
   voceValue.value = data
 }
 //f_预初始化,如果返回非0说明失败
@@ -143,8 +156,8 @@ const showModal = () => {
   open.value = true
 }
 const handleOk = (e: MouseEvent) => {
-  console.log(e)
-  console.log(voceValue.value)
+  // console.log(e)
+  // console.log(voceValue.value)
   onSendvoice()
   open.value = false
 }
@@ -160,7 +173,7 @@ const onSendClick = () => {
   emit('inputValueChanged', inputValue.value)
   inputValue.value = ''
 }
-const voceValue = ref('语音说的话渲染在这里')
+const voceValue = ref('')
 const onSendvoice = () => {
   emit('inputValueChanged', voceValue.value)
   console.log(voceValue.value)
@@ -203,13 +216,16 @@ const onSendvoice = () => {
 .voicebutton {
   /* width: 1000px; */
   /* height: 100px; */
-  /* font-size: 30px; */
+  font-size: 30px;
+  height: 50px;
+  line-height: 30px;
   background: #06c293;
   color: rgb(255, 255, 255);
   border-radius: 15px;
 }
 .voicebutton:hover {
   background: #a6a6a6;
+  color: #fff;
 }
 .soundwave {
   display: flex;
