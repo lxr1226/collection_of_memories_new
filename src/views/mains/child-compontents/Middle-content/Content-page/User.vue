@@ -14,7 +14,7 @@
               </span>
             </div>
             <div class="custom-tooltip-button">
-              <FinishButton v-if="isLatest" />
+              <FinishButton v-if="isLatest" v-bind="$attrs" />
             </div>
           </div>
         </div>

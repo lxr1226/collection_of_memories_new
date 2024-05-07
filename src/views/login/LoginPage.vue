@@ -58,7 +58,7 @@ async function logIn() {
   const loginResult = await LSJLoginRequest(useraccount.value, password.value)
   // console.log(loginResult);
   if (loginResult.code == 200) {
-    console.log(loginResult.data)
+    // console.log(loginResult.data)
     localStorage.setItem('LOGIN_TOKEN', loginResult.data.token)
     router.push('/MainPage')
     message.success('登录成功')

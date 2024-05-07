@@ -161,15 +161,15 @@ const handleEditOk = async (e: MouseEvent) => {
   // console.log(editRes.data)
   essay.value = editRes.data
   openEdit.value = false
-  console.log(e)
+  // console.log(e)
 }
 const editCancle = async () => {
-  console.log(essay.value)
+  // console.log(essay.value)
   editEssay.value = essay.value
   openEdit.value = false
 }
 const handleOk = (e: MouseEvent) => {
-  console.log(e)
+  // console.log(e)
   open.value = false
 }
 const emit = defineEmits(['closeDrawer'])
@@ -179,15 +179,15 @@ async function onClose() {
   if (props.issueId) {
     const formdata = new FormData()
     formdata.append('id', props.issueId)
-    console.log('查询问题的id：' + formdata.get('id'))
+    // console.log('查询问题的id：' + formdata.get('id'))
     const question = await LXRselectissue(formdata)
-    console.log('询问问题：' + question.data.id)
+    // console.log('询问问题：' + question.data.id)
     const qaId = ref()
     qaId.value = question.data.id.toString()
     const formdata2 = new FormData()
     formdata2.append('welcome_id', qaId.value)
     const welcomeRes = await LXRselectwelcome(formdata2)
-    console.log(welcomeRes.data)
+    // console.log(welcomeRes.data)
   } else {
     console.error('props.issueId为空')
   }
@@ -198,14 +198,14 @@ onMounted(async () => {
   const formdata = new FormData()
   formdata.append('question_id', props.issueId)
   const wordcount = await LXRwordcount(formdata)
-  console.log('字数' + wordcount.data)
+  // console.log('字数' + wordcount.data)
   if (wordcount.code === '200') {
     count.value = wordcount.data
   } else {
     count.value = 0
   }
   const essayRes = await LXRessay(formdata)
-  console.log(essayRes.data)
+  // console.log(essayRes.data)
   if (essayRes.code === '200') {
     editEssay.value = essayRes.data
     essay.value = essayRes.data

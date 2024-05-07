@@ -95,7 +95,7 @@ const logout = () => {
 const userInput = ref('')
 const handleInputValueChanged = (value: string) => {
   userInput.value = value
-  console.log(userInput.value)
+  // console.log(userInput.value)
 }
 </script>
 

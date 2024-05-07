@@ -15,9 +15,9 @@
       @click="toggleButtonStyle(button)"
       :icon="button.active ? button.icons.pause : button.icons.play"
     >
-      <template #icon>
+      <!-- <template #icon>
         <DownloadOutlined />
-      </template>
+      </template> -->
     </a-button>
     <!-- <Button
       v-for="(button, index) in buttons"
@@ -48,7 +48,7 @@ const player = ref<HTMLAudioElement | null>(null)
 const props = defineProps({
   content: String // 声明一个名为 content 的 prop，类型为字符串
 })
-console.log(props.content)
+// console.log(props.content)
 // 定义按钮数据
 const buttons = ref([
   {
@@ -92,7 +92,7 @@ async function synthesizeAndPlay(buttonId: { active: boolean; id: number }) {
 
   try {
     const token = localStorage.getItem('LOGIN_TOKEN')
-    console.log(token)
+    // console.log(token)
     const apiUrl = `http://47.108.144.113:7824/synthesizes?text=${encodeURIComponent(props.content)}`
     if (token) {
       const response = await fetch(apiUrl, {

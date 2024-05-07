@@ -1,24 +1,19 @@
 <template>
   <div>
-    <Button
+    <a-button
       v-for="(button, index) in buttons"
       :key="index"
       type="primary"
-      :style="{
-        backgroundColor: button.styles.bgplay,
-        borderRadius: '8px',
-        color: '#fff',
-        fontSize: '20px',
-        height: '50px'
-      }"
-      >结束话题
-    </Button>
+      size="large"
+      :style="{ backgroundColor: button.styles.bgplay }"
+      @click="handleOver"
+      >结束话题</a-button
+    >
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Button } from 'ant-design-vue'
 import { h } from 'vue'
 import { RedditOutlined } from '@ant-design/icons-vue'
 import { defineProps } from 'vue'
@@ -38,5 +33,9 @@ const buttons = ref([
     active: false // 初始状态为非激活状态
   }
 ])
+
+function handleOver() {
+  console.log('结束话题')
+}
 </script>
 <style scoped></style>

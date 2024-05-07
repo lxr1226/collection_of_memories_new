@@ -30,7 +30,7 @@ const age = ref('18岁')
 const address = ref('成都市xx区')
 // 接收子组件传递的数据,更新数据
 const handleDataUpdated = (data: any) => {
-  console.log('Received updated data from child component:', data)
+  // console.log('Received updated data from child component:', data)
   name.value = data.name
   sex.value = data.sex
   age.value = data.age
@@ -40,7 +40,7 @@ const handleDataUpdated = (data: any) => {
 const amendMessage = async () => {
   const res = await ZHQgetPersonal()
   const resData = res.data[0]
-  console.log(resData)
+  // console.log(resData)
   name.value = resData.name
   sex.value = resData.sex
   age.value = resData.age

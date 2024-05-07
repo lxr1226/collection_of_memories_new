@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" ref="containerRef">
     <div class="head-portrait">
       <div v-for="dialog in dialogs" :key="dialog.key" class="dialog-container">
         <component
@@ -8,11 +8,11 @@
           :aiMessage="dialog.type === 'ai' && dialog.content"
           :is-latest="dialog.isLatestInType"
           :show-intention-buttons="dialog.showIntentionButtons"
-          @askfatherquestion="askquestion"
+          @askFatheQuestion="askquestion"
         ></component>
       </div>
     </div>
-    <!-- <div v-for="(message, index) in messages">
+    <div v-for="(message, index) in messages">
       <a-alert
         v-if="visible"
         :message="message"
@@ -28,13 +28,13 @@
           font-size: 30px;
         "
       />
-    </div> -->
+    </div>
     <!-- <Button type="dashed" @click="hint">提示</Button> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { nextTick, onUpdated, reactive, ref, watch } from 'vue'
 import Ai from './Content-page/Ai.vue'
 import User from './Content-page/User.vue'
 import { onMounted } from 'vue'
@@ -66,6 +66,18 @@ const issue_id = '2'
 //     }
 //   }
 // )
+const containerRef = ref()
+const scrollBottom = () => {
+  const container = containerRef.value
+  if (container) {
+    container.scrollTop = container.scrollHeight
+    // console.log(container.scrollTop)
+    // console.log(container.scrollHeight)
+  }
+}
+onUpdated(() => {
+  scrollBottom()
+})
 const hint = () => {
   // 获取 aiquestion store 的实例
   const welcomeStore = aihint()
@@ -73,7 +85,7 @@ const hint = () => {
   //因为获取welcomeMessage是异步的,所以需要用then
   welcomeStore.getWelcomeMessage(issue_id).then(() => {
     const welcomeMessage = welcomeStore.welcom
-    console.log(welcomeMessage)
+    // console.log(welcomeMessage)
     messages.value.push(welcomeMessage)
     synthesizeAndPlay(welcomeMessage)
     /* setTimeout(() => {
@@ -108,7 +120,7 @@ async function synthesizeAndPlay(welcomeMessage: string) {
 
   try {
     const token = localStorage.getItem('LOGIN_TOKEN')
-    console.log(token)
+    // console.log(token)
     const apiUrl = `http://47.108.144.113:7824/synthesizes?text=${encodeURIComponent(welcomeMessage)}`
     if (token) {
       const response = await fetch(apiUrl, {
@@ -170,6 +182,9 @@ const addDialog = (Component: any, type: string, content: string) => {
     //设置user对话框如果不是最新对话框不显示结束按钮
     .forEach((dialog) => (dialog.isLatestInType = false))
   dialogs.value.push(newDialog)
+  // if (dialogs.value) {
+  //   scrollBottom()
+  // }
 }
 
 const props = defineProps({
@@ -191,7 +206,7 @@ watch(
 async function storage(id: string, newvalue: string) {
   const userResult = await JWHstorage(id, newvalue)
   if (userResult.code == 200) {
-    console.log(userResult.msg)
+    // console.log(userResult.msg)
   } else {
     /* empty */
   }
@@ -239,7 +254,7 @@ async function Intelligent(newvalue: string) {
 
   try {
     const token = localStorage.getItem('LOGIN_TOKEN')
-    console.log(token)
+    // console.log(token)
     const apiUrl = `http://47.108.144.113:7824/chat?prompt=${encodeURIComponent(newvalue)}&id=${id}`
     if (token) {
       const response = await fetch(apiUrl, {
@@ -266,7 +281,7 @@ async function storageai(storage: string) {
   const storageResult = await JWHstorageai(id, storage)
   //console.log(welcomResult)
   if (storageResult.code == 200) {
-    console.log(storageResult.msg)
+    // console.log(storageResult.msg)
   } else {
     /* empty */
   }
@@ -278,7 +293,7 @@ async function summarizeai() {
   const storageResult = await JWHsummarizeai(id)
   //console.log(welcomResult)
   if (storageResult.code == 200) {
-    console.log(storageResult.data)
+    // console.log(storageResult.data)
     addDialog(Ai, 'ai', storageResult.data)
   } else {
     /* empty */

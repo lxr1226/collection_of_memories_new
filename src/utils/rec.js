@@ -46,7 +46,7 @@ const recProcess = function (
 // 语音识别结果; 对jsonMsg数据解析,将识别结果附加到编辑框中
 const getJsonMessage = function (jsonMsg, callback) {
   //console.log(jsonMsg);
-  console.log('message: ' + JSON.parse(jsonMsg.data)['text'])
+  // console.log('message: ' + JSON.parse(jsonMsg.data)['text'])
   var rectxt = '' + JSON.parse(jsonMsg.data)['text']
   var asrmodel = JSON.parse(jsonMsg.data)['mode']
   var is_final = JSON.parse(jsonMsg.data)['is_speaking']
@@ -59,9 +59,9 @@ const getJsonMessage = function (jsonMsg, callback) {
   }
 
   //显示结果
-  console.log('offline_text: ' + asrmodel + ',' + offline_text)
-  console.log('rec_text: ' + rec_text)
-  callback(rec_text)
+  // console.log('offline_text: ' + asrmodel + ',' + offline_text)
+  // console.log('rec_text: ' + rec_text)
+  // callback(rec_text)
 }
 
 // webscoket连接状态响应
@@ -69,24 +69,24 @@ const getConnState = function (connState) {
   if (connState === 0) {
     //on open
     voiceServerStatus = true
-    console.log('连接成功!等待开始')
+    // console.log('连接成功!等待开始')
   } else if (connState === 1) {
     //stop();
   } else if (connState === 2) {
-    console.log('webscoket connecttion error')
+    // console.log('webscoket connecttion error')
     alert('连接地址' + wsServerUri + '失败,请检查asr地址和端口。或刷新重试。')
   }
 }
 
 function handleWithTimestamp(tmptext, tmptime) {
-  console.log('tmptext: ' + tmptext)
-  console.log('tmptime: ' + tmptime)
+  // console.log('tmptext: ' + tmptext)
+  // console.log('tmptime: ' + tmptime)
   if (tmptime == null || tmptime == 'undefined' || tmptext.length <= 0) {
     return tmptext
   }
   tmptext = tmptext.replace(/。|？|，|、|\?|\.|\ /g, ',') // in case there are a lot of "。"
   var words = tmptext.split(',') // split to chinese sentence or english words
-  console.log('words', words)
+  // console.log('words', words)
   var jsontime = JSON.parse(tmptime) //JSON.parse(tmptime.replace(/\]\]\[\[/g, "],[")); // in case there are a lot segments by VAD
   var char_index = 0 // index for timestamp
   var text_withtime = ''
@@ -94,10 +94,10 @@ function handleWithTimestamp(tmptext, tmptime) {
     if (words[i] == 'undefined' || words[i].length <= 0) {
       continue
     }
-    console.log('words===', words[i])
-    console.log(
-      'words: ' + words[i] + ',time=' + jsontime[char_index][0] / 1000
-    )
+    // console.log('words===', words[i])
+    // console.log(
+    //   'words: ' + words[i] + ',time=' + jsontime[char_index][0] / 1000
+    // )
     if (/^[a-zA-Z]+$/.test(words[i])) {
       // if it is english
       text_withtime =
@@ -126,7 +126,7 @@ const WebSocketConnectMethod = function (config) {
   this.wsStart = function () {
     var Uri = config.serverUrl
     if (Uri.match(/wss:\S*|ws:\S*/)) {
-      console.log('Uri' + Uri)
+      // console.log('Uri' + Uri)
     } else {
       alert('请检查wss地址正确性')
       return 0
@@ -138,7 +138,7 @@ const WebSocketConnectMethod = function (config) {
         onOpen(e)
       } // 定义响应函数
       speechSokt.onclose = function (e) {
-        console.log('onclose ws!')
+        // console.log('onclose ws!')
         //speechSokt.close();
         onClose(e)
       }
@@ -158,7 +158,7 @@ const WebSocketConnectMethod = function (config) {
   // 定义停止与发送函数
   this.wsStop = function () {
     if (speechSokt != undefined) {
-      console.log('stop ws!')
+      // console.log('stop ws!')
       speechSokt.close()
     }
   }
@@ -180,9 +180,9 @@ const WebSocketConnectMethod = function (config) {
       is_speaking: true
     }
 
-    console.log(JSON.stringify(request))
+    // console.log(JSON.stringify(request))
     speechSokt.send(JSON.stringify(request))
-    console.log('连接成功')
+    // console.log('连接成功')
     stateHandle(0)
   }
 
@@ -195,8 +195,8 @@ const WebSocketConnectMethod = function (config) {
   }
 
   function onError(e) {
-    console.log('ws发生错误')
-    console.log(e)
+    // console.log('ws发生错误')
+    // console.log(e)
     stateHandle(2)
   }
 }
@@ -213,7 +213,7 @@ var rec = Recorder({
 })
 
 export function initRecord(callback, serverUrl) {
-  console.log(123)
+  // console.log(123)
   if (callback != undefined) {
     callBackFun = callback
   }
@@ -231,7 +231,7 @@ export function initRecord(callback, serverUrl) {
   var ret = wsconnecter.wsStart()
   // 1 is ok, 0 is error
   if (ret == 1) {
-    console.log('正在连接asr服务器，请等待...')
+    // console.log('正在连接asr服务器，请等待...')
     isRec = true
     return 1
   } else {
@@ -242,13 +242,13 @@ export function initRecord(callback, serverUrl) {
 //initRecord()
 
 export function startRecord() {
-  console.log('startRecord')
+  // console.log('startRecord')
   if (recordStatus) {
     return
   }
 
   recordStatus = true
-  console.log('startRecord')
+  // console.log('startRecord')
   if (!voiceServerStatus) {
     return '语音服务器初始化失败，无法录音'
   }
@@ -260,7 +260,7 @@ export function startRecord() {
   //开始录音
   rec.open(function () {
     rec.start()
-    console.log('开始')
+    // console.log('开始')
     return 'start'
   })
 }
@@ -270,17 +270,17 @@ export function stopRecord() {
     return
   }
   recordStatus = false
-  console.log('stopRecord')
+  // console.log('stopRecord')
 
   //结束录音
   var chunk_size = new Array(5, 10, 5)
   var request = {
     is_speaking: false
   }
-  console.log(request)
+  // console.log(request)
   if (sampleBuf.length > 0) {
     wsconnecter.wsSend(sampleBuf)
-    console.log('sampleBuf.length' + sampleBuf.length)
+    // console.log('sampleBuf.length' + sampleBuf.length)
     sampleBuf = new Int16Array()
   }
   wsconnecter.wsSend(JSON.stringify(request))
@@ -292,7 +292,7 @@ export function stopRecord() {
 
   //停止发送数据，下次修改一下不结束ws，直接继续发
   setTimeout(function () {
-    console.log('call stop ws!')
+    // console.log('call stop ws!')
     wsconnecter.wsStop()
     initRecord()
     //rec_text = rec_text + "\n";
@@ -307,8 +307,7 @@ export function stopRecord() {
       /*setTimeout(function () {
             initRecord();
         }, 1000);*/
-
-      console.log(blob)
+      // console.log(blob)
       /*
         var audioBlob = Recorder.pcm2wav({ sampleRate: 16000, bitRate: 16, blob: blob },
             function (theblob, duration) {
@@ -327,11 +326,11 @@ export function stopRecord() {
       if (showLog) {
         info_div.innerHTML = 'errMsg: ' + errMsg
       }
-      console.log('errMsg: ' + errMsg)
+      // console.log('errMsg: ' + errMsg)
     }
   )
 }
 
 export default function () {
-  console.log('default')
+  // console.log('default')
 } // 或者其他导出的实体

@@ -15,7 +15,7 @@
   > -->
   <a-drawer
     width="100%"
-    v-model:open="open"
+    :open="open"
     :root-style="{ color: 'blue', fontSize: '30px' }"
     :footer-style="{ fontSize: '30px' }"
     :header-style="{ textAlign: 'center' }"
@@ -47,7 +47,7 @@
   <!-- </a-config-provider> -->
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import CardComponent from './card-component.vue'
 import { useOpenStore } from '@/stores/index'
 import {
@@ -57,12 +57,13 @@ import {
 } from '@/service/pages/mains/child-components/Right-drawer/DrawerPage'
 const openStore = useOpenStore()
 const open = ref(openStore.isOpen)
+
 // 定义不同的背景颜色
 const color1 = ref('rgba(222, 252, 241, 1)')
 const color2 = ref('rgba(255, 255, 255, 1)') // 这里可以是任何你想要的颜色值
 
 const afterOpenChange = (bool: boolean) => {
-  console.log('open', bool)
+  // console.log('open', bool)
 }
 interface Issue {
   id: number
@@ -75,21 +76,21 @@ const issues = ref<Issue[]>([])
 onMounted(async () => {
   //查询模块
   const moduleRes = await LXRselectmodule()
-  console.log(moduleRes.data)
+  // console.log(moduleRes.data)
   const ids = moduleRes.data.map((element: any) => {
     // console.log(element.id)
     // ids.push(element.id)
     return element.id
   })
-  console.log('ids:' + ids[0])
+  // console.log('ids:' + ids[0])
   const moduleId = ref('')
   moduleId.value = ids[0].toString()
-  console.log(moduleId.value)
+  // console.log(moduleId.value)
   const formdata = new FormData()
   formdata.append('id', moduleId.value)
   //查询一级标题
   const titleRes = await LXRselecttitle(formdata)
-  console.log(titleRes.data)
+  // console.log(titleRes.data)
   issues.value = titleRes.data
   // issues.values = titleRes.data.map((element: any) => {
   //   return element

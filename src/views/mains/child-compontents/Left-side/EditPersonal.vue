@@ -177,7 +177,7 @@ const sendDataToBackend = async () => {
   // }
   await formRef.value.validate()
   const res = await Editperson(formdata)
-  console.log(res)
+  // console.log(res)
   message.success('修改成功')
   onClose()
   amendMessage()
