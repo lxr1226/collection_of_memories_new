@@ -7,9 +7,21 @@
   >
     <div class="card-content">
       <a-avatar :size="64" style="margin-bottom: 10px" :src="avatar" />
-      <h1 @click="onClose" style="font-size: 30px; margin-bottom: 10px">
-        <slot></slot>
-      </h1>
+      <a-tooltip>
+        <template #title>点击可进行AI对话</template>
+        <a-button
+          type="link"
+          block
+          @click="onClose"
+          style="
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: rgba(255, 195, 100, 1);
+          "
+        >
+          <slot></slot>
+        </a-button>
+      </a-tooltip>
       <span style="margin-bottom: 10px">字数：{{ count }} /字</span>
       <a-typography-paragraph
         style="font-size: 20px"
