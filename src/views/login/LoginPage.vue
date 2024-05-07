@@ -1,44 +1,46 @@
 <template>
-  <div class="big-box">
-    <h2 class="page-title">大模型自传系统登录</h2>
-    <div class="login-box">
-      <div class="avatar-container">
-        <img
-          src="../../assets/image/head-photo.jpg"
-          alt="这是动漫风的一个老年人的头像"
-        />
-      </div>
-      <div class="wrapper">
-        <div class="input-data">
-          <input type="text" required v-model="useraccount" />
-          <div class="underline"></div>
-          <label>用户名</label>
-        </div>
-
-        <div class="input-data">
-          <input
-            type="text"
-            required
-            v-on:keyup.enter="logIn"
-            v-model="password"
+  <a-spin tip="Loading..." :spinning="spinning">
+    <div class="big-box">
+      <h2 class="page-title">大模型自传系统登录</h2>
+      <div class="login-box">
+        <div class="avatar-container">
+          <img
+            src="../../assets/image/head-photo.jpg"
+            alt="这是动漫风的一个老年人的头像"
           />
-          <div class="underline"></div>
-          <label>密 码</label>
         </div>
+        <div class="wrapper">
+          <div class="input-data">
+            <input type="text" required v-model="useraccount" />
+            <div class="underline"></div>
+            <label>用户名</label>
+          </div>
 
-        <div class="button-div" @click="logIn">
-          <nav>
-            <ul>
-              <li>
-                登 录
-                <span></span><span></span><span></span><span></span>
-              </li>
-            </ul>
-          </nav>
+          <div class="input-data">
+            <input
+              type="text"
+              required
+              v-on:keyup.enter="logIn"
+              v-model="password"
+            />
+            <div class="underline"></div>
+            <label>密 码</label>
+          </div>
+
+          <div class="button-div" @click="logIn">
+            <nav>
+              <ul>
+                <li>
+                  登 录
+                  <span></span><span></span><span></span><span></span>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </a-spin>
 </template>
 
 <script setup lang="ts">
@@ -51,6 +53,7 @@ const router = useRouter()
 
 const useraccount = ref<string>('')
 const password = ref<string>('')
+const spinning = ref<boolean>(false)
 
 async function logIn() {
   // console.log(useraccount.value)
@@ -59,9 +62,11 @@ async function logIn() {
   // console.log(loginResult);
   if (loginResult.code == 200) {
     // console.log(loginResult.data)
-    localStorage.setItem('LOGIN_TOKEN', loginResult.data.token)
     router.push('/MainPage')
+    spinning.value = true
+    localStorage.setItem('LOGIN_TOKEN', loginResult.data.token)
     message.success('登录成功')
+    spinning.value = false
   } else {
     message.warning(`${loginResult.msg}`)
   }
