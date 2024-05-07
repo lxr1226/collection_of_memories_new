@@ -17,6 +17,23 @@ import { ref } from 'vue'
 import { h } from 'vue'
 import { RedditOutlined } from '@ant-design/icons-vue'
 import { defineProps } from 'vue'
+import { aidefine, aihint } from '@/stores/index'
+//调用pinia里面的新的问题
+const issue_id = '2'
+let issue: string = '3'
+function handleOver() {
+  //console.log('结束话题')
+  // askquestionStore.askquestion(issue_id).then(() => {
+  //   const welcomeMessage = askquestionStore.aianswer
+  //   //console.log(welcomeMessage)
+  // })
+  //console.log('结束话题')
+  issue = String(Number(issue) + 1)
+  getWelcomeMessageStore.getWelcomeMessage(issue).then(() => {})
+}
+const askquestionStore = aidefine()
+const getWelcomeMessageStore = aihint()
+
 const props = defineProps({
   content: String // 声明一个名为 content 的 prop，类型为字符串
 })
@@ -33,9 +50,5 @@ const buttons = ref([
     active: false // 初始状态为非激活状态
   }
 ])
-
-function handleOver() {
-  console.log('结束话题')
-}
 </script>
 <style scoped></style>

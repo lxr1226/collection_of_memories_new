@@ -34,6 +34,8 @@ export const aihint = defineStore('welcome_id', () => {
 //调用询问问题接口
 export const aidefine = defineStore('id', () => {
   const aianswer = ref('')
+  const answerid = ref('')
+  const answerstate = ref('')
   async function askquestion(id: string) {
     // console.log(useraccount.value)
     // console.log(password.value)
@@ -41,9 +43,11 @@ export const aidefine = defineStore('id', () => {
     //console.log(welcomResult)
     if (aianswerResult.code == 200) {
       aianswer.value = aianswerResult.data.issue
+      answerid.value = aianswerResult.data.id
+      answerstate.value = aianswerResult.data.state
     } else {
       /* empty */
     }
   }
-  return { aianswer, askquestion }
+  return { aianswer, answerid, answerstate, askquestion }
 })
