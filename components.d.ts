@@ -28,7 +28,6 @@ declare module 'vue' {
     ASpin: typeof import('ant-design-vue/es')['Spin']
     AStyleProvider: typeof import('ant-design-vue/es')['StyleProvider']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
-    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     ATypographyParagraph: typeof import('ant-design-vue/es')['TypographyParagraph']
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
     RouterLink: typeof import('vue-router')['RouterLink']

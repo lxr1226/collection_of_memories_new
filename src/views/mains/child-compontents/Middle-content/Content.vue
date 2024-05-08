@@ -84,6 +84,7 @@ watch(
   async (newVal) => {
     await aidef.askquestion(newVal)
     aidefContent.value = aidef.aianswer
+    // console.log(aidefContent.value)
     addDialog(Ai, 'ai', aidefContent.value)
     aidefid.value = aidef.answerid
     aidefstate.value = aidef.answerstate

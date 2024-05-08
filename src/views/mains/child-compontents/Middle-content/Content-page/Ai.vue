@@ -135,7 +135,7 @@ async function selectmodule() {
   align-items: center;
   margin: 0 auto;
   margin-top: 12px;
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   justify-content: space-around;
 }
 .left {
