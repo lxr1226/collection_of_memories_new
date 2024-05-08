@@ -82,6 +82,7 @@
 </template>
 <script setup lang="ts">
 import { ref, defineEmits, onMounted } from 'vue'
+import { aihint } from '@/stores/index'
 import avatar from '../../../../assets/image/avatar.png'
 import {
   LXRselectissue,
@@ -149,6 +150,13 @@ const handleOk = (e: MouseEvent) => {
 }
 const emit = defineEmits(['closeDrawer'])
 async function onClose() {
+  const welcomeStore = aihint()
+  // 然后你可以调用其中的函数和访问数据
+  //因为获取welcomeMessage是异步的,所以需要用then
+  welcomeStore.getWelcomeMessage(props.issueId).then(() => {
+    const welcomeMessage = welcomeStore.welcom
+    console.log(welcomeMessage)
+  })
   open.value = false
   emit('closeDrawer', open.value) // 发射一个自定义事件，告知父组件关闭抽屉
   if (props.issueId) {

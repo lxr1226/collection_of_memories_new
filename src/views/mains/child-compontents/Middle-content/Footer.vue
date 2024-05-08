@@ -98,8 +98,8 @@
 </template>
 
 <script setup lang="ts">
-import { AudioOutlined, InsertRowBelowOutlined } from '@ant-design/icons-vue'
 import { ref } from 'vue'
+import { AudioOutlined, InsertRowBelowOutlined } from '@ant-design/icons-vue'
 import SoundWave from '../../child-compontents/Middle-content/Content-page/SoundWave.vue'
 
 /* 20240430 增加3个引用js用于录音 */
